@@ -8,6 +8,8 @@ import tensorflow as tf
 from PIL import ImageOps, Image
 from streamlit_drawable_canvas import st_canvas
 
+model = tf.keras.models.load_model('cnn-mnist-model.h5')
+
 def preprocess_image(image):
     image = image.resize((28, 28))
     image = np.array(image)
