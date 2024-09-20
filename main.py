@@ -1,14 +1,13 @@
-"""
-TODO : streamlit
-TODO : MNIST model
-"""
 import streamlit as st
 import numpy as np
-import tensorflow as tf
 from PIL import ImageOps, Image
 from streamlit_drawable_canvas import st_canvas
+from tensorflow.keras.models import Sequential, load_model
+from tensorflow.keras.layers import Input, Conv2D, MaxPooling2D, Dense, Flatten
+from keras.utils import to_categorical
+from keras.datasets import mnist
 
-model = tf.keras.models.load_model('cnn-mnist-model.h5')
+(X_train, y_train), (X_test, y_test) = mnist.load_data()
 
 def preprocess_image(image):
     image = image.resize((28, 28))
