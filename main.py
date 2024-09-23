@@ -13,7 +13,7 @@ MODEL_DIR = os.path.join(os.path.dirname(__file__), 'model')
 if not os.path.isdir(MODEL_DIR):
     os.system('runipy train.ipynb')
 
-model = load_model('model')
+model = ts.keras.models.load_model('model')
 # st.markdown('<style>body{color: White; background-color: DarkSlateGrey}</style>', unsafe_allow_html=True)
 
 # 이미지 전처리 함수
