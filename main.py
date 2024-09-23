@@ -1,7 +1,3 @@
-"""
-TODO : streamlit
-TODO : MNIST model
-"""
 import streamlit as st
 import numpy as np
 import tensorflow as tf
@@ -19,16 +15,17 @@ def preprocess_image(image):
 st.title('손글씨 숫자 인식기 - 그려보기')
 st.write('캔버스에 숫자를 그린 후, 예측 버튼을 누르세요.')
 
+mode = st.checkbox("그리기 (혹은 지우기)?", True)
 canvas_result = st_canvas(
     stroke_width=10,
     stroke_color="#000000",
     background_color="#FFFFFF",
     height=150,
     width=150,
-    drawing_mode="freedraw",
+    drawing_mode="freedraw" if mode else "transform",
     key="canvas"
 )
-
+'''
 if canvas_result.image_data is not None:
     img = Image.fromarray(np.uint8(canvas_result.image_data))
     processed_image = preprocess_image(img)
@@ -37,3 +34,4 @@ if canvas_result.image_data is not None:
     predicted_digit = np.argmax(prediction, axis=1)
 
     st.write(f"예측된 숫자는: {predicted_digit[0]}")
+'''
