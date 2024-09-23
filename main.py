@@ -4,7 +4,33 @@ import tensorflow as tf
 from PIL import ImageOps, Image
 from streamlit_drawable_canvas import st_canvas
 
-model = tf.keras.models.load_model('cnn-mnist-model.h5')
+from tensorflow.keras.datasets import mnist
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense
+
+# MNIST 데이터셋 로드
+(x_train, y_train), (x_test, y_test) = mnist.load_data()
+x_train = x_train.reshape(-1, 28, 28, 1).astype('float32') / 255
+x_test = x_test.reshape(-1, 28, 28, 1).astype('float32') / 255
+y_train = tf.keras.utils.to_categorical(y_train, 10)
+y_test = tf.keras.utils.to_categorical(y_test, 10)
+
+# CNN 모델 정의
+model = Sequential([
+    Conv2D(32, kernel_size=(3, 3), activation='relu', input_shape=(28, 28, 1)),
+    MaxPooling2D(pool_size=(2, 2)),
+    Flatten(),
+    Dense(128, activation='relu'),
+    Dense(10, activation='softmax')
+])
+
+# 모델 컴파일 및 학습
+model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+model.fit(x_train, y_train, validation_data=(x_test, y_test), epochs=5)
+
+# 학습된 모델 저장 (SavedModel 형식)
+model.save('saved_model_format')
+
 
 def preprocess_image(image):
     image = image.resize((28, 28))
